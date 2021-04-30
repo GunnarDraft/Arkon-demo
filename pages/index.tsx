@@ -1,29 +1,39 @@
-import { ListofTasks } from '../components/ListofTasks'
-import { AddTask } from '../components/AddTask'
-import { useState } from 'react';
+import { ListofTasks } from "../components/ListofTasks";
+import { AddTask } from "../components/AddTask";
+import { Timer } from "../components/Timer";
+import { Chart } from "../components/Chart";
+import { useState } from "react";
 
-interface ITasks{
-  text?: string,
-}
+export type ITask = {
+  id?: string | number;
+  body?: string;
+};
 
 export default function Home() {
+  const [getTasks, setTasks] = useState<ITask[]>([]);
 
-  const [getTasks, setTasks] = useState<ITasks[]>([]);
-
-  console.log(getTasks && getTasks.length);
-
-  const deleteTodo = (id: any) => {
-    const tempTask = getTasks.filter((todo: any) => todo.id !== id);
+  const deleteTask = (id: any) => {
+    const tempTask = getTasks.filter((task: any) => task.id !== id);
     setTasks(tempTask);
   };
 
-  const addTodo = (task: any) => {
+  const editTask = (id: any) => {
+    console.log(id);
+    // const tempTask = getTasks.filter((task: any) => task.id !== id);
+    // setTasks(tempTask);
+  };
+
+  const addTask = (task: ITask) => {
     console.log(task);
     setTasks([task, ...getTasks]);
   };
 
-  return <div>
-    <AddTask onAdd={addTodo} />
-    <ListofTasks tasks={getTasks} onDelete={deleteTodo} />
-  </div>
+  return (
+    <>
+      <Timer />
+      <AddTask onAdd={addTask} />
+      <ListofTasks tasks={getTasks} onDelete={deleteTask} onEdit={editTask} />
+      <Chart />
+    </>
+  );
 }

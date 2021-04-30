@@ -1,8 +1,15 @@
-import styled from 'styled-components'
+import { useState } from "react";
+import styled from "styled-components";
 
-const TimerContent = styled.div`
-  
-`
+const TimerContent = styled.div``;
+
 export const Timer = () => {
-  return <TimerContent>Timer</TimerContent>
-}
+  let time = new Date().toLocaleTimeString();
+  const [CicleTime, setCicleTime] = useState(time);
+  const UpdateTime = () => {
+    time = new Date().toLocaleTimeString();
+    setCicleTime(time);
+  };
+  setInterval(UpdateTime, 1000);
+  return <TimerContent>Timer:{time}</TimerContent>;
+};
