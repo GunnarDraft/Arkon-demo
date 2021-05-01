@@ -30,10 +30,10 @@ export const Tasker = () => {
     setTasks([task, ...getTasks]);
   };
   //genereta random from external api
-  const addRandomTask = (task: ITask) => {
-    console.log(task);
-    // setTasks([task, ...getTasks]);
-  };
+  // const addRandomTask = (task: ITask) => {
+  //   console.log(task);
+  //   // setTasks([task, ...getTasks]);
+  // };
   return (
     <TaskerContent>
       <AddTask onAdd={addTask} />
