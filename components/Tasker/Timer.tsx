@@ -4,12 +4,18 @@ import styled from "styled-components";
 const TimerContent = styled.div``;
 
 export const Timer = () => {
+  //reloj
+  //estado mutable
   let time = new Date().toLocaleTimeString();
-  const [CicleTime, setCicleTime] = useState(time);
+  //estado inmutable
+  const [getClock, setClock] = useState(time);
+  //actualizacion
   const UpdateTime = () => {
     time = new Date().toLocaleTimeString();
-    setCicleTime(time);
+    setClock(time);
   };
+  //realoj base
   setInterval(UpdateTime, 1000);
-  return <TimerContent>Timer:{time}</TimerContent>;
+
+  return <TimerContent>Timer:{getClock}</TimerContent>;
 };
