@@ -1,11 +1,16 @@
-import styled from 'styled-components'
-import { ListOfTodo } from '../components/ListOfTodo'
-const Title = styled.h1`
-  color: red;
-  font-size: 50px;
-`
+import { Chart } from "../components/Tasker/Chart";
+import { Timer } from "../components/Tasker/Timer";
+import { Base } from "../styles/Components";
+import { CssBaseline } from "@material-ui/core";
+import { Tasker } from "../components/Tasker/Tasker";
+
 export default function Home() {
-  return <Title>My page
-    <ListOfTodo />
-  </Title>
+  return (
+    <Base>
+      <CssBaseline />
+      <Timer />
+      <Tasker />
+      <Chart />
+    </Base>
+  );
 }
