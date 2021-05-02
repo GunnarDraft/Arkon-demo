@@ -2,6 +2,9 @@
   "name": "arkon-demo",
   "author": "Gunnar",
   "version": "1.0.0",
+  "private": true,
+  "description": "",
+  "license": "MIT",
   "scripts": {
     "dev": "next",
     "build": "next build",
@@ -31,5 +34,5 @@
     "eslint-plugin-react-hooks": "^4.2.0",
     "typescript": "4.2.4"
   },
-  "license": "MIT"
+  "cacheDirectories": [".next/cache"]
 }
