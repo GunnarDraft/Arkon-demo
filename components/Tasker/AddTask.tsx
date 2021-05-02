@@ -10,7 +10,7 @@ export const AddTask = ({ onAdd }: any) => {
   const handleSubmit = (e: any) => {
     e.preventDefault();
     if (!!getTask || !!getTime) {
-      console.log('true');
+      console.log("true");
       const newTodo = {
         id: nanoid(),
         body: getTask,
@@ -19,30 +19,25 @@ export const AddTask = ({ onAdd }: any) => {
       onAdd(newTodo);
       setTask("");
       setTime(0);
-      // let now = new Date().getMinutes
-      // setTaskTimeStamp();
     }
   };
   return (
     <TaskerContent>
-      <form onSubmit={handleSubmit}>
+      <form onSubmit={handleSubmit}> 
         <TextField
           label="Tarea"
           variant="outlined"
           margin="dense"
           value={getTask}
-          onChange={(e: ChangeEvent<HTMLInputElement>) =>
-            setTask(e.target.value)
-          }
+           
         />
         <TextField
           label="Tiempo"
           variant="outlined"
           margin="dense"
           value={getTime}
-          onChange={(e: ChangeEvent<HTMLInputElement>) =>
-            setTask(e.target.value)
-          }
+          type="number"
+          
         />
         <Button onClick={handleSubmit} color="primary">
           Add Task

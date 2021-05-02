@@ -8,7 +8,21 @@ export type ITask = {
   body?: string;
 };
 //default data test
-const defaultTempData = [{ id: 1213, body: "test" }];
+const defaultTempData = [
+  { id: 1213, body: "test", time: 30 },
+  { id: 123123, body: "test", time: 30 },
+  { id: 121123123313, body: "test", time: 30 },
+  { id: 11222213, body: "test", time: 30 },
+  { id: 122622213, body: "test", time: 30 },
+  { id: 126213, body: "test", time: 30 },
+  { id: 2233, body: "test", time: 30 },
+  { id: 633, body: "test", time: 30 },
+  { id: 6666, body: "test", time: 30 },
+  { id: 166213, body: "test3", time: 30 },
+  { id: 126613, body: "test2", time: 30 },
+  { id: 1266613, body: "test2", time: 30 },
+  { id: 16213, body: "test11", time: 30 },
+];
 
 //vista contenedora
 export const Tasker = () => {

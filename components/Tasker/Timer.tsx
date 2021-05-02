@@ -3,10 +3,10 @@ import styled from "styled-components";
 
 const TimerContent = styled.div``;
 
-export const Timer = () => {
+export const Timer = ({time}:any) => {
   //reloj
   //estado mutable
-  let time = new Date().toLocaleTimeString();
+  // let time = new Date().toLocaleTimeString();
   //estado inmutable
   const [getClock, setClock] = useState(time);
   //actualizacion
