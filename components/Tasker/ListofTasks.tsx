@@ -1,8 +1,11 @@
 import { IconButton, TextField } from "@material-ui/core";
-import { Delete, Edit,
-   PlayCircleOutlineRounded as Play,
-   PauseCircleOutlineRounded as Pause,
-   RefreshRounded as Refresh} from "@material-ui/icons";
+import {
+  Delete,
+  Edit,
+  PlayCircleOutlineRounded as Play,
+  PauseCircleOutlineRounded as Pause,
+  RefreshRounded as Refresh,
+} from "@material-ui/icons";
 import React, { FC } from "react";
 import { TextFlex, FlexLi, FlexUl } from "../../styles/Components";
 import { Timer } from "./Timer";
@@ -30,7 +33,17 @@ export const ListofTasks: FC<ITasks> = ({
         tasks.map((task: any) => {
           return (
             <FlexLi key={task.id}>
-              <IconButton children={<Play />} onClick={() => onEdit(task.id)} />
+              {true ? (
+                <IconButton
+                  children={<Play />}
+                  onClick={() => onEdit(task.id)}
+                />
+              ) : (
+                <IconButton
+                  children={<Pause />}
+                  onClick={() => onEdit(task.id)}
+                />
+              )}
               {false ? (
                 <TextFlex>{task.body}</TextFlex>
               ) : (
@@ -53,8 +66,8 @@ export const ListofTasks: FC<ITasks> = ({
                   <Timer time={task.time} />
                 </>
               )}
-              <IconButton children={<Pause />} onClick={() => onEdit(task.id)} />
               <IconButton
+                size='medium'
                 children={<Refresh />}
                 onClick={() => onDelete(task.id)}
               />

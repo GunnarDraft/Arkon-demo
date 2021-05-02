@@ -9,9 +9,8 @@ export const Base = styled.div`
   flex: 1;
   flex-flow:row;
   justify-content:space-evenly;
-  align-items:stretch;
-  border:1px solid red;
-  background-color:#e3e3e3;
+  align-items:stretch; 
+  background-color:#dedede;
   height:100vh;
 `;
 export const BoxFlex = styled.div`
@@ -41,7 +40,7 @@ export const TaskerContent = styled.div`
   min-height:min-content;
   box-sizing:border-box;
   border-radius:12px;
-  border:1px solid #443;
+  box-shadow:0 0 2px #333;
   max-width:600px;
   box-sizing:border-box;
 `;
@@ -58,7 +57,7 @@ export const FlexUl = styled.div`
   min-width:300px;
   max-width:600px;
   align-items:flex-start;
-  border:1px solid #2f2f2f;
+  box-shadow:0 0 2px #333;
   padding:8px;
   margin:8px;
   border-radius:12px;
