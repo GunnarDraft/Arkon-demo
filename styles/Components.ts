@@ -21,14 +21,36 @@ export const BoxFlex = styled.div`
   margin:8px;
   z-index:2;
   box-sizing:border-box;
+  align-items:center;
   border-radius:12px;
 `;
 export const TaskerContent = styled.div`
   display: flex;  
-  flex-flow:row wrap;
+  flex-flow:column nowrap;
   justify-content:stretch;
   background-color:#eee; 
-  align-items:flex-start;
+  align-items:stretch; 
+  align-self:flex-start;
+  padding:8px;
+  margin:8px;
+  z-index:2;
+  flex:1;
+  min-width:300px;
+  max-width:600px;
+  max-height:max-content;
+  min-height:min-content;
+  box-sizing:border-box;
+  border-radius:12px;
+  box-shadow:0 0 2px #333;
+  max-width:600px;
+  box-sizing:border-box;
+`;
+export const TaskerItem = styled.div`
+  display: flex;  
+  flex-flow:row nowrap;
+  justify-content:stretch;
+  background-color:#eee; 
+  align-items:center; 
   align-self:flex-start;
   padding:8px;
   margin:8px;
@@ -48,6 +70,7 @@ export const FlexLi = styled.div`
   display:flex;
   flex-flow:row nowrap;
   justify-content:stretch;
+  align-items:center;
   `
 export const FlexUl = styled.div`
   display:flex;
@@ -56,7 +79,8 @@ export const FlexUl = styled.div`
   flex:1;
   min-width:300px;
   max-width:600px;
-  align-items:flex-start;
+  align-items:stretch;
+  justify-content:center;
   box-shadow:0 0 2px #333;
   padding:8px;
   margin:8px;

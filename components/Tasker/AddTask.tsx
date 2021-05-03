@@ -1,7 +1,7 @@
 import { useState } from "react";
 import { Button, TextField } from "@material-ui/core";
 import { nanoid } from "nanoid";
-import { TaskerContent } from "../../styles/Components";
+import { TaskerContent,TaskerItem } from "../../styles/Components";
 
 export const AddTask = ({ onAdd }: any) => {
   const [getTask, setTask] = useState<string>("");
@@ -9,8 +9,10 @@ export const AddTask = ({ onAdd }: any) => {
 
   const handleSubmit = (e: any) => {
     e.preventDefault();
+
     if (!!getTask || !!getTime) {
       console.log("true");
+
       const newTodo = {
         id: nanoid(),
         body: getTask,
@@ -22,27 +24,23 @@ export const AddTask = ({ onAdd }: any) => {
     }
   };
   return (
-    <TaskerContent>
-      <form onSubmit={handleSubmit}> 
+    <TaskerItem> 
         <TextField
           label="Tarea"
           variant="outlined"
           margin="dense"
-          value={getTask}
-           
+          value={getTask} 
         />
         <TextField
           label="Tiempo"
           variant="outlined"
           margin="dense"
           value={getTime}
-          type="number"
-          
+          type="number" 
         />
-        <Button onClick={handleSubmit} color="primary">
+        <Button onClick={handleSubmit} color="primary" variant="outlined">
           Add Task
-        </Button>
-      </form>
-    </TaskerContent>
+        </Button> 
+    </TaskerItem>
   );
 };

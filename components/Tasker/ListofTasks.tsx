@@ -5,25 +5,19 @@ import {
   PlayCircleOutlineRounded as Play,
   PauseCircleOutlineRounded as Pause,
   RefreshRounded as Refresh,
+  SaveOutlined,
+  CancelOutlined,
 } from "@material-ui/icons";
-import React, { FC } from "react";
+import React, { FC, useState } from "react";
 import { TextFlex, FlexLi, FlexUl } from "../../styles/Components";
 import { Timer } from "./Timer";
-export interface ITask {
-  id?: string | number;
-  body?: string;
-}
-export interface ITasks {
-  tasks?: ITask[];
-  onDelete: (id: any) => void;
-  onEdit: (id: any) => void;
-}
 
-export const ListofTasks: FC<ITasks> = ({
-  tasks,
-  onDelete,
-  onEdit,
-}: ITasks) => {
+
+
+export const ListofTasks: FC<ITasks> = ({ tasks, onDelete, editId, onPlay }: ITasks) => {
+
+  const [getEditable, setEditable] = useState<ITask>({ status: "", task: "", time:0 });
+
   if (!tasks?.length) {
     return <div>No tasks</div>;
   }
@@ -33,27 +27,34 @@ export const ListofTasks: FC<ITasks> = ({
         tasks.map((task: any) => {
           return (
             <FlexLi key={task.id}>
-              {true ? (
+              {onPlay.id !== task.id ? (
                 <IconButton
                   children={<Play />}
-                  onClick={() => onEdit(task.id)}
+                  // onClick={() => onPlay(task.id)}
                 />
               ) : (
-                <IconButton
-                  children={<Pause />}
-                  onClick={() => onEdit(task.id)}
-                />
+                <>
+                  <IconButton
+                    children={<Pause />}
+                    // onClick={() => onEdit(task.id)}
+                  />
+                  {/* <IconButton
+                    size="medium"
+                    children={<Refresh />}
+                    onClick={() => onDelete(task.id)}
+                  /> */}
+                </>
               )}
-              {false ? (
-                <TextFlex>{task.body}</TextFlex>
-              ) : (
+              {editId === task.id ? (
                 <>
                   <TextField
                     label="Outlined"
                     variant="outlined"
                     margin="dense"
                     error={true}
-                    value={task.body}
+                    value={getEditable.task}
+                    defaultValue={task.task}
+                    onChange={(e: any) => setEditable(e.target.value)}
                   />
                   <TextField
                     label="Outlined"
@@ -61,21 +62,41 @@ export const ListofTasks: FC<ITasks> = ({
                     margin="dense"
                     type="number"
                     error={true}
-                    value={task.time}
+                    value={getEditable.time}
+                    defaultValue={task.time}
+                    onChange={(e: any) => setEditable(e.target.value)}
                   />
-                  <Timer time={task.time} />
+                </>
+              ) : (
+                <>
+                  <TextFlex>{task.body}</TextFlex>
+                  <TextFlex>{task.time}</TextFlex>
+                  <Timer time={task.time} status={task.status}/>
                 </>
               )}
-              <IconButton
-                size='medium'
-                children={<Refresh />}
-                onClick={() => onDelete(task.id)}
-              />
-              <IconButton children={<Edit />} onClick={() => onEdit(task.id)} />
-              <IconButton
-                children={<Delete />}
-                onClick={() => onDelete(task.id)}
-              />
+              {editId === task.id ? (
+                <>
+                 <IconButton
+                  children={<SaveOutlined />}
+                  // onClick={() => onSave(task.id)}
+                />
+                <IconButton
+                  children={<CancelOutlined />}
+                  // onClick={() => onCancel()}
+                />
+                </>
+              ) : (
+                <>
+                   <IconButton
+                    children={<Edit />}
+                    // onClick={() => onEdit(task.id)}
+                  />
+                  <IconButton
+                    children={<Delete />}
+                    onClick={() => onDelete(task.id)}
+                  />
+                </>
+              )}
             </FlexLi>
           );
         })}
