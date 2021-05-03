@@ -36,11 +36,11 @@ type TAPIAvoResponse = {
 type ITasks = {
   tasks?: ITask[];
   onDelete: (id: any) => void;
-  onEdit: (id: any) => void;
+  // onEdit: (id: any) => void;
   // onSave: (id: any) => void;
-  onPlay: (id: any) => void;
+  // onPlay: (id: any) => void;
   // onCancel: () => void;
-  editId: string;
+  // editId: string;
 }
 type ITask = {
   id?: string | number;

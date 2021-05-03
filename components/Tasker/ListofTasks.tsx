@@ -14,7 +14,7 @@ import { Timer } from "./Timer";
 
 
 
-export const ListofTasks: FC<ITasks> = ({ tasks, onDelete, editId, onPlay }: ITasks) => {
+export const ListofTasks: FC<ITasks> = ({ tasks, onDelete }: ITasks) => {
 
   const [getEditable, setEditable] = useState<ITask>({ status: "", task: "", time:0 });
 
@@ -27,7 +27,7 @@ export const ListofTasks: FC<ITasks> = ({ tasks, onDelete, editId, onPlay }: ITa
         tasks.map((task: any) => {
           return (
             <FlexLi key={task.id}>
-              {onPlay.id !== task.id ? (
+              {'' !== task.id ? (
                 <IconButton
                   children={<Play />}
                   // onClick={() => onPlay(task.id)}
@@ -45,7 +45,7 @@ export const ListofTasks: FC<ITasks> = ({ tasks, onDelete, editId, onPlay }: ITa
                   /> */}
                 </>
               )}
-              {editId === task.id ? (
+              {'2' === task.id ? (
                 <>
                   <TextField
                     label="Outlined"
@@ -74,7 +74,7 @@ export const ListofTasks: FC<ITasks> = ({ tasks, onDelete, editId, onPlay }: ITa
                   <Timer time={task.time} status={task.status}/>
                 </>
               )}
-              {editId === task.id ? (
+              {'' === task.id ? (
                 <>
                  <IconButton
                   children={<SaveOutlined />}

@@ -73,8 +73,7 @@ export const Tasker = () => {
       <AddTask onAdd={addTask} />
       <ListofTasks
         tasks={getTasks}
-        onDelete={deleteTask}
-        onPlay={editTask}  
+        onDelete={deleteTask} 
       />
       <History
         tasks={getTasks} 

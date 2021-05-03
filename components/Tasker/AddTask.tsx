@@ -1,7 +1,7 @@
 import { useState } from "react";
 import { Button, TextField } from "@material-ui/core";
 import { nanoid } from "nanoid";
-import { TaskerContent,TaskerItem } from "../../styles/Components";
+import { TaskerItem } from "../../styles/Components";
 
 export const AddTask = ({ onAdd }: any) => {
   const [getTask, setTask] = useState<string>("");
@@ -24,23 +24,23 @@ export const AddTask = ({ onAdd }: any) => {
     }
   };
   return (
-    <TaskerItem> 
-        <TextField
-          label="Tarea"
-          variant="outlined"
-          margin="dense"
-          value={getTask} 
-        />
-        <TextField
-          label="Tiempo"
-          variant="outlined"
-          margin="dense"
-          value={getTime}
-          type="number" 
-        />
-        <Button onClick={handleSubmit} color="primary" variant="outlined">
-          Add Task
-        </Button> 
+    <TaskerItem>
+      <TextField
+        label="Tarea"
+        variant="outlined"
+        margin="dense"
+        value={getTask}
+      />
+      <TextField
+        label="Tiempo"
+        variant="outlined"
+        margin="dense"
+        value={getTime}
+        type="number"
+      />
+      <Button onClick={handleSubmit} color="primary" variant="outlined">
+        Add Task
+      </Button>
     </TaskerItem>
   );
 };
