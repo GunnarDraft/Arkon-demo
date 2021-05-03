@@ -1,8 +1,7 @@
-import { useState } from "react";
 import styled from "styled-components";
 const Div = styled.div``;
 
-export const History = ({tasks}: any) => {
+export const History = ({ tasks }: any) => {
   return (
     <Div>
       {tasks &&

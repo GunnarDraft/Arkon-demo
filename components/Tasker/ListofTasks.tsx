@@ -3,8 +3,7 @@ import {
   Delete,
   Edit,
   PlayCircleOutlineRounded as Play,
-  PauseCircleOutlineRounded as Pause,
-  RefreshRounded as Refresh,
+  PauseCircleOutlineRounded as Pause, 
   SaveOutlined,
   CancelOutlined,
 } from "@material-ui/icons";

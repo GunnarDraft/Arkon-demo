@@ -24,34 +24,34 @@ const defaultTempData = [
 //vista contenedora
 export const Tasker = () => {
   const [getTasks, setTasks] = useState<ITask[]>(defaultTempData);
-  const [onEdit, setEdit] = useState<string>("");
-  const [getNextTask, setNextTask] = useState(getTasks[0]);
+  // const [onEdit, setEdit] = useState<string>("");
+  // const [getNextTask, setNextTask] = useState(getTasks[0]);
 
   const deleteTask = (id: any) => {
     const tempTask = getTasks.filter((task: any) => task.id !== id);
     setTasks(tempTask);
   };
 
-  const editTask = (id: any) => {
-    if (onEdit === id) return setEdit("");
-    setEdit(id);
-  };
-  const cancel = () => {
-    setEdit("");
-  };
+  // const editTask = (id: any) => {
+  //   if (onEdit === id) return setEdit("");
+  //   setEdit(id);
+  // };
+  // const cancel = () => {
+  //   setEdit("");
+  // };
   //function add and existant
   const addTask = (task: ITask) => {
     setTasks([task, ...getTasks]);
   };
-  const save = (id: any) => {
-    const tempTask = getTasks.find((task: any) => task.id === id);
-    // setTasks(tempTask);
-  };
-  const play = (task: ITask) => {
-    // task.state
-    // task.time
-    // setTasks(tempTask);
-  };
+  // const save = (id: any) => {
+  //   const tempTask = getTasks.find((task: any) => task.id === id);
+  //   // setTasks(tempTask);
+  // };
+  // const play = (task: ITask) => {
+  //   task.state
+  //   task.time
+  //   setTasks(tempTask);
+  // };
   const [getClock, setClock] = useState(0);
   //actualizacion
 

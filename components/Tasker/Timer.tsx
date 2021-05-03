@@ -1,16 +1,11 @@
-import { FC, useEffect, useState } from "react";
+import { FC } from "react";
 import styled from "styled-components";
 
 const TimerContent = styled.div``;
 
-export const Timer: FC<ITask> = ({ time, status, nextTask }: any) => {
+export const Timer: FC<ITask> = ({ status }: any) => {
   //reloj
   //estado inmutable
 
-
-  return (
-    <TimerContent> 
-      {status}
-    </TimerContent>
-  );
+  return <TimerContent>{status}</TimerContent>;
 };
