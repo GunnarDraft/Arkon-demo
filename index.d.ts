@@ -32,3 +32,19 @@ type TAPIAvoResponse = {
   data: TProduct[]
   error?: string
 }
+ 
+type ITasks = {
+  tasks?: ITask[];
+  onDelete: (id: any) => void;
+  onEdit: (id: any) => void;
+  // onSave: (id: any) => void;
+  onPlay: (id: any) => void;
+  // onCancel: () => void;
+  editId: string;
+}
+type ITask = {
+  id?: string | number;
+  task?: string;
+  status?: string;
+  time?:number;  
+};
