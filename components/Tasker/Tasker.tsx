@@ -49,7 +49,7 @@ export const Tasker = () => {
     tempTasks[tempTask] = tasklocal;
     setTasks(tempTasks);
   };
-  const play = (task: ITask) => {};
+  const play = () => {};
   const [getClock, setClock] = useState(0);
 
   useEffect(() => {
