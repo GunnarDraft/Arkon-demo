@@ -1,4 +1,4 @@
-import { GridContent, FlexData } from "../../styles/Components";
+import { TaskerContent, FlexData, TextTitle,GridContent } from "../../styles/Components";
 import { GridColDef } from "@material-ui/data-grid";
 import { FC } from "react";
 
@@ -7,28 +7,31 @@ export const History: FC<IHistory> = ({ tasks }: IHistory) => {
     {
       field: "task",
       headerName: "task",
-      width: 160,
+      flex: 1,
     },
     {
       field: "time",
       headerName: "time",
-      width: 90,
+      flex: 1,
     },
   ];
   if (!tasks?.length) {
     return <div>No tasks</div>;
   }
   return (
-    <GridContent>
-      <FlexData
-        rows={tasks.filter((task: any) => task.status === "done")}
-        columns={columns}
-        pageSize={10}
-        rowsPerPageOptions={[10, 25, 50]}
-        pagination
-        density="compact"
-        {...tasks}
-      />
-    </GridContent>
+    <TaskerContent>
+      <TextTitle variant="h2">History</TextTitle>
+      <GridContent>
+        <FlexData
+          rows={tasks.filter((task: any) => task.status === "done")}
+          columns={columns}
+          pageSize={10}
+          rowsPerPageOptions={[10, 25, 50]}
+          pagination
+          density="comfortable"
+          {...tasks}
+        />
+      </GridContent>
+    </TaskerContent>
   );
 };
