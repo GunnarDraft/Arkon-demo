@@ -1,104 +1,126 @@
 import { IconButton, TextField } from "@material-ui/core";
 import {
-  Delete,
-  Edit,
-  PlayCircleOutlineRounded as Play,
-  PauseCircleOutlineRounded as Pause, 
-  SaveOutlined,
-  CancelOutlined,
+  Delete as DeleteIcon,
+  Edit as EditIcon,
+  PlayCircleOutlineRounded as PlayIcon,
+  PauseCircleOutlineRounded as PauseIcon,
+  SaveOutlined as SaveIcon,
+  CancelOutlined as CancelIcon,
 } from "@material-ui/icons";
-import React, { FC, useState } from "react";
-import { TextFlex, FlexLi, FlexUl } from "../../styles/Components";
-import { Timer } from "./Timer";
+import React, { FC, useState, ChangeEvent } from "react";
+import { TextFlex, GridContent, FlexData } from "../../styles/Components";
+import { GridColDef } from "@material-ui/data-grid";
 
+export const ListofTasks: FC<ITasks> = ({
+  tasks,
+  onDelete,
+  onEdit,
+  inEdit,
+  onSave,
+  onCancel,
+}: ITasks) => {
+  const [getStatusEdit, setStatusEdit] = useState("");
+  const [getTimeEdit, setTimeEdit] = useState("");
 
-
-export const ListofTasks: FC<ITasks> = ({ tasks, onDelete }: ITasks) => {
-
-  const [getEditable, setEditable] = useState<ITask>({ status: "", task: "", time:0 });
+  const columns: GridColDef[] = [
+    {
+      field: "id",
+      headerName: "Start",
+      filterable: false,
+      disableClickEventBubbling: true,
+      width: 90,
+      renderCell: () =>
+        true ? (
+          <IconButton children={<PlayIcon />} />
+        ) : (
+          <IconButton children={<PauseIcon />} />
+        ),
+    },
+    {
+      field: "task",
+      headerName: "task",
+      width: 160,
+      renderCell: (task: ITask & any) =>
+        task.id === inEdit.id ? (
+          <TextField
+            label="task"
+            variant="outlined"
+            value={inEdit.task}
+            defaultValue={task.getValue("task")}
+            onChange={(e: ChangeEvent<HTMLInputElement>) =>
+              setStatusEdit(e.target.value)
+            }
+          />
+        ) : (
+          <TextFlex>{task.getValue("task")}</TextFlex>
+        ),
+    },
+    {
+      field: "time",
+      headerName: "time",
+      type: "number",
+      width: 160,
+      renderCell: (task: ITask & any) =>
+        task.id === inEdit.id ? (
+          <TextField
+            label="time"
+            variant="outlined"
+            type="number"
+            error={false}
+            value={inEdit.time}
+            defaultValue={task.getValue("time")}
+            onChange={(e: ChangeEvent<HTMLInputElement>) =>
+              setTimeEdit(e.target.value)
+            }
+          />
+        ) : (
+          <TextFlex>{task.getValue("time")}</TextFlex>
+        ),
+    },
+    {
+      field: "actions",
+      headerName: "Acction",
+      filterable: false,
+      disableClickEventBubbling: true,
+      width: 120,
+      renderCell: (task) =>
+        task.id === inEdit.id ? (
+          <>
+            <IconButton
+              children={
+                <SaveIcon
+                  onClick={() => onSave({ getStatusEdit, getTimeEdit })}
+                />
+              }
+            />
+            <IconButton children={<CancelIcon onClick={() => onCancel()} />} />
+          </>
+        ) : (
+          <>
+            <IconButton children={<EditIcon />} onClick={() => onEdit(task)} />
+            <IconButton
+              children={<DeleteIcon />}
+              onClick={() => onDelete(task.id)}
+            />
+          </>
+        ),
+    },
+  ];
 
   if (!tasks?.length) {
     return <div>No tasks</div>;
   }
   return (
-    <FlexUl>
-      {tasks &&
-        tasks.map((task: any) => {
-          return (
-            <FlexLi key={task.id}>
-              {'' !== task.id ? (
-                <IconButton
-                  children={<Play />}
-                  // onClick={() => onPlay(task.id)}
-                />
-              ) : (
-                <>
-                  <IconButton
-                    children={<Pause />}
-                    // onClick={() => onEdit(task.id)}
-                  />
-                  {/* <IconButton
-                    size="medium"
-                    children={<Refresh />}
-                    onClick={() => onDelete(task.id)}
-                  /> */}
-                </>
-              )}
-              {'2' === task.id ? (
-                <>
-                  <TextField
-                    label="Outlined"
-                    variant="outlined"
-                    margin="dense"
-                    error={true}
-                    value={getEditable.task}
-                    defaultValue={task.task}
-                    onChange={(e: any) => setEditable(e.target.value)}
-                  />
-                  <TextField
-                    label="Outlined"
-                    variant="outlined"
-                    margin="dense"
-                    type="number"
-                    error={true}
-                    value={getEditable.time}
-                    defaultValue={task.time}
-                    onChange={(e: any) => setEditable(e.target.value)}
-                  />
-                </>
-              ) : (
-                <>
-                  <TextFlex>{task.body}</TextFlex>
-                  <TextFlex>{task.time}</TextFlex>
-                  <Timer time={task.time} status={task.status}/>
-                </>
-              )}
-              {'' === task.id ? (
-                <>
-                 <IconButton
-                  children={<SaveOutlined />}
-                  // onClick={() => onSave(task.id)}
-                />
-                <IconButton
-                  children={<CancelOutlined />}
-                  // onClick={() => onCancel()}
-                />
-                </>
-              ) : (
-                <>
-                   <IconButton
-                    children={<Edit />}
-                    // onClick={() => onEdit(task.id)}
-                  />
-                  <IconButton
-                    children={<Delete />}
-                    onClick={() => onDelete(task.id)}
-                  />
-                </>
-              )}
-            </FlexLi>
-          );
-        })}
-    </FlexUl>
+    <GridContent>
+      <FlexData
+        rows={tasks.filter((task) => task.status === "todo")}
+        columns={columns}
+        pageSize={10}
+        rowsPerPageOptions={[10, 25, 50]}
+        pagination
+        density="comfortable"
+        {...tasks}
+      />
+    </GridContent>
   );
 };

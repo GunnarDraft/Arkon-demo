@@ -6,25 +6,25 @@ import { History } from "./History";
 
 //default data test
 const defaultTempData = [
-  { id: 1213, body: "test", time: 20, status: "complete" },
-  { id: 123123, body: "test", time: 20, status: "complete" },
-  { id: 121123123313, body: "test", time: 10, status: "complete" },
-  { id: 11222213, body: "test", time: 10, status: "complete" },
-  { id: 122622213, body: "test", time: 10, status: "inprocess" },
-  { id: 126213, body: "test", time: 10, status: "todo" },
-  { id: 2233, body: "test", time: 10, status: "todo" },
-  { id: 633, body: "test", time: 10, status: "todo" },
-  { id: 6666, body: "test", time: 10, status: "todo" },
-  { id: 166213, body: "test3", time: 10, status: "todo" },
-  { id: 126613, body: "test2", time: 10, status: "todo" },
-  { id: 1266613, body: "test2", time: 10, status: "todo" },
-  { id: 16213, body: "test11", time: 10, status: "todo" },
+  { id: 1213, task: "test", time: 30, status: "compldoneete" },
+  { id: 123123, task: "test", time: 60, status: "done" },
+  { id: 121123123313, task: "test", time: 45, status: "done" },
+  { id: 11222213, task: "test", time: 45, status: "done" },
+  { id: 122622213, task: "test", time: 60, status: "inprocess" },
+  { id: 126213, task: "test", time: 60, status: "todo" },
+  { id: 2233, task: "test", time: 45, status: "todo" },
+  { id: 633, task: "test", time: 30, status: "todo" },
+  { id: 6666, task: "test", time: 30, status: "todo" },
+  { id: 166213, task: "test3", time: 30, status: "todo" },
+  { id: 126613, task: "test2", time: 45, status: "todo" },
+  { id: 1266613, task: "test2", time: 60, status: "todo" },
+  { id: 16213, task: "test11", time: 30, status: "todo" },
 ];
 
 //vista contenedora
 export const Tasker = () => {
   const [getTasks, setTasks] = useState<ITask[]>(defaultTempData);
-  // const [onEdit, setEdit] = useState<string>("");
+  const [onEdit, setEdit] = useState<string>("");
   // const [getNextTask, setNextTask] = useState(getTasks[0]);
 
   const deleteTask = (id: any) => {
@@ -32,21 +32,25 @@ export const Tasker = () => {
     setTasks(tempTask);
   };
 
-  // const editTask = (id: any) => {
-  //   if (onEdit === id) return setEdit("");
-  //   setEdit(id);
-  // };
-  // const cancel = () => {
-  //   setEdit("");
-  // };
+  const editTask = (id: any) => {
+    if (onEdit === id) return setEdit("");
+    setEdit(id);
+  };
+  const cancel = () => {
+    setEdit("");
+  };
   //function add and existant
   const addTask = (task: ITask) => {
     setTasks([task, ...getTasks]);
   };
-  // const save = (id: any) => {
-  //   const tempTask = getTasks.find((task: any) => task.id === id);
-  //   // setTasks(tempTask);
-  // };
+  const save = (tasklocal: any) => {
+    const tempTask = getTasks.findIndex(
+      (task: any) => task.id === tasklocal.id
+    );
+    let tempTasks = getTasks;
+    tempTasks[tempTask] = tasklocal;
+    setTasks(tempTasks);
+  };
   // const play = (task: ITask) => {
   //   task.state
   //   task.time
@@ -73,11 +77,13 @@ export const Tasker = () => {
       <AddTask onAdd={addTask} />
       <ListofTasks
         tasks={getTasks}
-        onDelete={deleteTask} 
+        onDelete={deleteTask}
+        onEdit={editTask}
+        inEdit={onEdit}
+        onSave={save}
+        onCancel={cancel}
       />
-      <History
-        tasks={getTasks} 
-      />
+      <History tasks={getTasks} />
     </TaskerContent>
   );
 };

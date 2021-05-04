@@ -1,22 +1,20 @@
 import { useState } from "react";
-import { Button, TextField } from "@material-ui/core";
 import { nanoid } from "nanoid";
-import { TaskerItem } from "../../styles/Components";
+import { TaskerItem, ButtonPrimary, TextInput } from "../../styles/Components";
 
 export const AddTask = ({ onAdd }: any) => {
   const [getTask, setTask] = useState<string>("");
-  const [getTime, setTime] = useState<number>(0);
+  const [getTime, setTime] = useState<number>(30);
 
-  const handleSubmit = (e: any) => {
-    e.preventDefault();
-
+  const handleSubmit = (e: any) => { 
+    e.preventDefault(); 
     if (!!getTask || !!getTime) {
-      console.log("true");
-
+      console.log({getTime,getTask})
       const newTodo = {
         id: nanoid(),
-        body: getTask,
+        task: getTask,
         time: getTime,
+        status:'todo',
       };
       onAdd(newTodo);
       setTask("");
@@ -25,22 +23,29 @@ export const AddTask = ({ onAdd }: any) => {
   };
   return (
     <TaskerItem>
-      <TextField
+      <TextInput
         label="Tarea"
         variant="outlined"
         margin="dense"
+        error={!getTask}
+        // helperText={"error"}
         value={getTask}
+        onChange={(e: any) => setTask(e.target.value)}
+
       />
-      <TextField
+      <TextInput
         label="Tiempo"
         variant="outlined"
         margin="dense"
+        error={getTime <= 0}
+        // helperText={"error"}
         value={getTime}
+        onChange={(e: any) => setTime(e.target.value)}
         type="number"
       />
-      <Button onClick={handleSubmit} color="primary" variant="outlined">
+      <ButtonPrimary onClick={handleSubmit} color="primary" variant="outlined">
         Add Task
-      </Button>
+      </ButtonPrimary>
     </TaskerItem>
   );
 };
