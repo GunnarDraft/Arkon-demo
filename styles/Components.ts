@@ -1,9 +1,17 @@
+import { Button, TextField } from '@material-ui/core';
+import { DataGrid } from '@material-ui/data-grid';
 import styled from 'styled-components'
 
 export const TextFlex = styled.div`
   display: flex;
   flex: 1; 
 `;
+
+export const TextInput = styled(TextField)`
+border:1px dashed green;
+margin:4px 8px !important;
+`;
+
 export const Base = styled.div`
   display: flex;
   flex: 1;
@@ -88,4 +96,28 @@ export const FlexUl = styled.div`
 
 `
 
+export const GridContent = styled.div`
+  display:flex;
+  height:700px; 
+  width:100%;  
+`
+
+export const FlexData = styled(DataGrid)`  
+  box-sizing:border-box;
+  box-shadow:0 0 2px #333;
+  padding:8px;
+  margin:8px;
+  border-radius:12px !important;
+  & .MuiDataGrid-cell:focus-within {
+    outline: none !important; 
+}
+& .MuiDataGrid-cell:focus {
+    outline: none !important; 
+}
+`
+
+export const ButtonPrimary = styled(Button)`  
+  white-space: nowrap;
+  margin:4px 8px !important;
+`
 
