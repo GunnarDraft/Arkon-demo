@@ -25,10 +25,13 @@ export const ListofTasks: FC<ITasks> = ({
   const columns: GridColDef[] = [
     {
       field: "id",
-      headerName: "Start",
-      filterable: false,
-      disableClickEventBubbling: true,
-      width: 90,
+      headerName: "Start", 
+      sortable:false,
+      disableColumnMenu:true,
+      disableClickEventBubbling: true, 
+      headerAlign:"center",
+      align:"center",
+      width: 80,  
       renderCell: () =>
         true ? (
           <IconButton children={<PlayIcon />} />
@@ -39,7 +42,7 @@ export const ListofTasks: FC<ITasks> = ({
     {
       field: "task",
       headerName: "task",
-      width: 160,
+      flex: 1,
       renderCell: (task: ITask & any) =>
         task.id === inEdit.id ? (
           <TextField
@@ -57,9 +60,8 @@ export const ListofTasks: FC<ITasks> = ({
     },
     {
       field: "time",
-      headerName: "time",
-      type: "number",
-      width: 160,
+      headerName: "time",  
+      flex: 1,
       renderCell: (task: ITask & any) =>
         task.id === inEdit.id ? (
           <TextField
@@ -82,7 +84,11 @@ export const ListofTasks: FC<ITasks> = ({
       headerName: "Acction",
       filterable: false,
       disableClickEventBubbling: true,
-      width: 120,
+      width: 120, 
+      sortable:false,
+      disableColumnMenu:true,
+      headerAlign:"center",
+      align: "center",
       renderCell: (task) =>
         task.id === inEdit.id ? (
           <>

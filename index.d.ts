@@ -38,7 +38,7 @@ type ITasks = {
   onDelete: (id: any) => void;
   onEdit: (id: any) => void;
   onSave: (task: any) => void;
-  // onPlay: (id: any) => void;
+  onPlay: (task: any) => void;
   onCancel: () => void;
    inEdit: any;
 }

@@ -1,7 +1,7 @@
 import { useEffect, useState } from "react";
 import { ListofTasks } from "./ListofTasks";
 import { AddTask } from "./AddTask";
-import { TaskerContent } from "../../styles/Components";
+import { TaskerContent, FlexRow,TextTitle } from "../../styles/Components";
 import { History } from "./History";
 
 //default data test
@@ -24,8 +24,7 @@ const defaultTempData = [
 //vista contenedora
 export const Tasker = () => {
   const [getTasks, setTasks] = useState<ITask[]>(defaultTempData);
-  const [onEdit, setEdit] = useState<string>("");
-  // const [getNextTask, setNextTask] = useState(getTasks[0]);
+  const [onEdit, setEdit] = useState<string>(""); 
 
   const deleteTask = (id: any) => {
     const tempTask = getTasks.filter((task: any) => task.id !== id);
@@ -38,8 +37,7 @@ export const Tasker = () => {
   };
   const cancel = () => {
     setEdit("");
-  };
-  //function add and existant
+  }; 
   const addTask = (task: ITask) => {
     setTasks([task, ...getTasks]);
   };
@@ -51,15 +49,8 @@ export const Tasker = () => {
     tempTasks[tempTask] = tasklocal;
     setTasks(tempTasks);
   };
-  // const play = (task: ITask) => {
-  //   task.state
-  //   task.time
-  //   setTasks(tempTask);
-  // };
+  const play = (task: ITask) => {};
   const [getClock, setClock] = useState(0);
-  //actualizacion
-
-  //realoj base
 
   useEffect(() => {
     const inter = setInterval(() => {
@@ -67,23 +58,25 @@ export const Tasker = () => {
     }, 1000);
     return () => clearInterval(inter);
   }, []);
-  //genereta random from external api
-  // const addRandomTask = (task: ITask) => {
-  //   console.log(task);
-  //   // setTasks([task, ...getTasks]);
-  // };
+
   return (
-    <TaskerContent>
-      <AddTask onAdd={addTask} />
-      <ListofTasks
-        tasks={getTasks}
-        onDelete={deleteTask}
-        onEdit={editTask}
-        inEdit={onEdit}
-        onSave={save}
-        onCancel={cancel}
-      />
+    <FlexRow>
+      <TaskerContent>
+        <TextTitle variant='h2'>
+         Add Tasks
+        </TextTitle>
+        <AddTask onAdd={addTask} />
+        <ListofTasks
+          tasks={getTasks}
+          onDelete={deleteTask}
+          onEdit={editTask}
+          inEdit={onEdit}
+          onSave={save}
+          onCancel={cancel}
+          onPlay={play}
+        />
+      </TaskerContent>
       <History tasks={getTasks} />
-    </TaskerContent>
+    </FlexRow>
   );
 };
