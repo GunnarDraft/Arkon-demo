@@ -57,9 +57,9 @@ type IItem = {
   updateOrder: (i, y) => void;
   onDelete: (id) => void;
   onEdit: (id) => void;
-  inEdit: string;
   onSave: (task: ITask) => void;
   onCancel: () => void;
+  inEdit: string;
 }
 type IHistory = {
   tasks: ITask[];

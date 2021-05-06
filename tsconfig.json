@@ -24,7 +24,7 @@
     "isolatedModules": true,
     "useDefineForClassFields": false,
     "noImplicitAny": true,
-    "strictNullChecks": true
+    "strictNullChecks": false
   },
   "exclude": [
     "node_modules"

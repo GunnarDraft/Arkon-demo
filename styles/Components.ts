@@ -1,5 +1,4 @@
-import { Button, TextField } from '@material-ui/core';
-import { DataGrid } from '@material-ui/data-grid';
+import { Button, TextField } from '@material-ui/core'; 
 import styled from 'styled-components'
 import { motion } from "framer-motion";
 
