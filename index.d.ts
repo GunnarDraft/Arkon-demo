@@ -32,23 +32,37 @@ type TAPIAvoResponse = {
   data: TProduct[]
   error?: string
 }
- 
+
 type ITasks = {
   tasks?: ITask[];
   onDelete: (id: any) => void;
   onEdit: (id: any) => void;
-  onSave: (task: any) => void;
-  onPlay: (task: any) => void;
+  onSave: (task: ITask) => void;
   onCancel: () => void;
-   inEdit: any;
+  setTasks:any;
+  inEdit: any;
+}
+type ITimer = {
+  onPlay: () => void;
+  onPause: () => void;
+  onRestore: () => void;
+  time?: number;
+
 }
 type IHistory = {
-  tasks?: ITask[]; 
+  tasks?: ITask[];
 }
-
+enum Status {
+  todo,
+  process,
+  done
+}
 type ITask = {
   id?: string | number;
   task?: string;
-  status?: string;
-  time?:number;  
+  status?: Status;
+  time?: number;
+  key?: number | string;
 };
+
+type ShortOrder = 'asc' | 'desc';

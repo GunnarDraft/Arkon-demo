@@ -1,82 +1,103 @@
 import { useEffect, useState } from "react";
 import { ListofTasks } from "./ListofTasks";
 import { AddTask } from "./AddTask";
-import { TaskerContent, FlexRow,TextTitle } from "../../styles/Components";
+import { TaskerContent, FlexRow, TextTitle } from "../../styles/Components";
 import { History } from "./History";
-
+import { nanoid } from "nanoid";
+import { Timer } from "./Timer";
 //default data test
 const defaultTempData = [
-  { id: 1213, task: "test", time: 30, status: "compldoneete" },
-  { id: 123123, task: "test", time: 60, status: "done" },
-  { id: 121123123313, task: "test", time: 45, status: "done" },
-  { id: 11222213, task: "test", time: 45, status: "done" },
-  { id: 122622213, task: "test", time: 60, status: "inprocess" },
-  { id: 126213, task: "test", time: 60, status: "todo" },
-  { id: 2233, task: "test", time: 45, status: "todo" },
-  { id: 633, task: "test", time: 30, status: "todo" },
-  { id: 6666, task: "test", time: 30, status: "todo" },
-  { id: 166213, task: "test3", time: 30, status: "todo" },
-  { id: 126613, task: "test2", time: 45, status: "todo" },
-  { id: 1266613, task: "test2", time: 60, status: "todo" },
-  { id: 16213, task: "test11", time: 30, status: "todo" },
+  { id: nanoid(), task: "test1", time: 30 },
+  { id: nanoid(), task: "test", time: 60 },
+  { id: nanoid(), task: "test0", time: 60 },
+  { id: nanoid(), task: "test2", time: 60 },
+];
+const defaultTempHistoryData = [
+  { id: nanoid(), task: "test1", time: 30 },
+  { id: nanoid(), task: "test", time: 60 },
+  { id: nanoid(), task: "test0", time: 60 },
+  { id: nanoid(), task: "test2", time: 60 },
 ];
 
 //vista contenedora
 export const Tasker = () => {
   const [getTasks, setTasks] = useState<ITask[]>(defaultTempData);
-  const [onEdit, setEdit] = useState<string>(""); 
+  const [getHistoryTasks, setHistoryTasks] = useState<ITask[]>(
+    defaultTempHistoryData
+  );
+  const [onEdit, setEdit] = useState<string>("");
+  const [getClock, setClock] = useState<number>(0);
 
-  const deleteTask = (id: any) => {
-    const tempTask = getTasks.filter((task: any) => task.id !== id);
+  const deleteTask = (id: string) => {
+    const tempTask = getTasks.filter((task: ITask) => task.id !== id);
     setTasks(tempTask);
   };
 
-  const editTask = (id: any) => {
+  const editTask = (id: string) => {
     if (onEdit === id) return setEdit("");
     setEdit(id);
   };
+
   const cancel = () => {
     setEdit("");
-  }; 
+  };
+
   const addTask = (task: ITask) => {
     setTasks([task, ...getTasks]);
   };
-  const save = (tasklocal: any) => {
-    const tempTask = getTasks.findIndex(
-      (task: any) => task.id === tasklocal.id
+
+  const save = (tasklocal: ITask) => {
+    let tempTask = getTasks.findIndex(
+      (task: ITask) => task.id === tasklocal.id
     );
     let tempTasks = getTasks;
-    tempTasks[tempTask] = tasklocal;
-    setTasks(tempTasks);
+    if (tempTask !== -1) {
+      tempTasks[tempTask] = tasklocal;
+      setTasks(tempTasks);
+    }
+    setEdit("");
   };
-  const play = () => {};
-  const [getClock, setClock] = useState(0);
+
+  const play = () => {
+    setClock(getTasks[0].time);
+  };
+  const pause = () => {
+    setClock(getTasks[0].time);
+  };
+  const restore = () => {
+    setClock(getTasks[0].time);
+  };
 
   useEffect(() => {
-    const inter = setInterval(() => {
-      if (getClock && getClock > 0) return setClock(getClock - 1);
-    }, 1000);
-    return () => clearInterval(inter);
-  }, []);
+    const timer =
+      getClock > 0 && setInterval(() => setClock(getClock - 1), 1000);
+    return () => clearInterval(timer);
+  }, [getClock]);
 
   return (
     <FlexRow>
       <TaskerContent>
-        <TextTitle variant='h2'>
-         Add Tasks
+        <TextTitle>
+          Lista de Tareas
+          <Timer
+            time={getClock}
+            onPlay={play}
+            onPause={pause}
+            onRestore={restore}
+          ></Timer>
         </TextTitle>
         <AddTask onAdd={addTask} />
         <ListofTasks
+          setTasks={setTasks}
           tasks={getTasks}
           onDelete={deleteTask}
           onEdit={editTask}
           inEdit={onEdit}
           onSave={save}
           onCancel={cancel}
-          onPlay={play}
         />
       </TaskerContent>
-      <History tasks={getTasks} />
+      <History tasks={getHistoryTasks} />
     </FlexRow>
   );
 };
