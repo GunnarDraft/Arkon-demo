@@ -1,4 +1,4 @@
-import { Checkbox, IconButton } from "@material-ui/core";
+import { Checkbox,  IconButton } from "@material-ui/core";
 import {
   Delete as DeleteIcon,
   Edit as EditIcon,
@@ -47,7 +47,7 @@ export const ListofTasks: FC<ITasks> = ({
     <TaskerItem>
       <GridContent>
         <FlexUl>
-          {order.map((task: any, i: any) => (
+          {order.map((task: ITask, i: number) => (
             <Item
               key={task.id}
               task={task}
@@ -67,8 +67,7 @@ export const ListofTasks: FC<ITasks> = ({
   );
 };
 
-const Item = (props) => {
-
+const Item = (props:IItem) => {
   const {
     i,
     task,
@@ -80,12 +79,12 @@ const Item = (props) => {
     onSave,
     onCancel,
   } = props;
-  
+
   //estado de drag and drop del item
   const [getEditTask, setEditTask] = useState<string>(task.task);
   const [getEditTime, setEditTime] = useState<number | string>(task.time);
   const [isDragging, setDragging] = useState(false);
-  const ref = useMeasurePosition((pos) => updatePosition(i, pos));
+  const ref = useMeasurePosition((pos:any) => updatePosition(i, pos));
 
   return (
     <FlexLi style={{ padding: 0, zIndex: isDragging ? 3 : 1 }}>
@@ -105,7 +104,9 @@ const Item = (props) => {
           isDragging && updateOrder(i, delta.y.translate);
         }}
       >
-        <Checkbox />
+        <Checkbox color="primary"
+          onChange={(e: ChangeEvent<HTMLInputElement>) => e.target.checked}
+        />
         {inEdit === task.id ? (
           <Form>
             <TextInput
@@ -138,31 +139,37 @@ const Item = (props) => {
         {inEdit === task.id ? (
           <>
             <IconButton
+              color="primary"
               children={<SaveIcon />}
               onClick={() =>
                 onSave({
                   id: task.id,
                   task: getEditTask,
-                  time: getEditTime,
-                  status: 0,
+                  time: getEditTime as number
                 })
               }
             />
-            <IconButton children={<CancelIcon />} onClick={() => onCancel()} />
+            <IconButton
+              color="secondary"
+              children={<CancelIcon />}
+              onClick={() => onCancel()}
+            />
           </>
         ) : (
           <>
             <IconButton
+              color="primary"
               children={<EditIcon />}
               onClick={() => onEdit(task.id)}
             />
             <IconButton
+              color="secondary"
               children={<DeleteIcon />}
               onClick={() => onDelete(task.id)}
             />
           </>
         )}
-        <IconButton children={<DragIndicator />} disabled />
+        <IconButton color="primary" children={<DragIndicator />} disabled />
       </FlexDiv>
     </FlexLi>
   );

@@ -1,5 +1,4 @@
-import { Button, TextField } from '@material-ui/core';
-import { DataGrid } from '@material-ui/data-grid';
+import { Button, TextField } from '@material-ui/core'; 
 import styled from 'styled-components'
 import { motion } from "framer-motion";
 
@@ -132,16 +131,16 @@ export const GridContent = styled.div`
   border-radius:6px !important; 
 `
 
-export const FlexData = styled(DataGrid)`   
-  box-sizing:border-box; 
-  border-radius:6px !important;
-  & .MuiDataGrid-cell:focus-within {
-    outline: none !important; 
-}
-& .MuiDataGrid-cell:focus {
-    outline: none !important; 
-}
-` 
+// export const FlexData = styled(DataGrid)`   
+//   box-sizing:border-box; 
+//   border-radius:6px !important;
+//   & .MuiDataGrid-cell:focus-within {
+//     outline: none !important; 
+// }
+// & .MuiDataGrid-cell:focus {
+//     outline: none !important; 
+// }
+// ` 
 export const ButtonPrimary = styled(Button)`  
   white-space: nowrap;
   margin:4px 8px !important;

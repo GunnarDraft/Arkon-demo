@@ -23,7 +23,7 @@
     "resolveJsonModule": true,
     "isolatedModules": true,
     "useDefineForClassFields": false,
-    "noImplicitAny": false,
+    "noImplicitAny": true,
     "strictNullChecks": false
   },
   "exclude": [
