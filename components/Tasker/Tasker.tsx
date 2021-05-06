@@ -6,31 +6,23 @@ import { History } from "./History";
 import { nanoid } from "nanoid";
 import { Timer } from "./Timer";
 //default data test
-const defaultTempData = [
-  { id: nanoid(), task: "test1", time: 30 },
-  { id: nanoid(), task: "test", time: 60 },
-  { id: nanoid(), task: "test0", time: 60 },
-  { id: nanoid(), task: "test2", time: 60 },
-];
-const defaultTempHistoryData = [
-  { id: nanoid(), task: "test1", time: 30 },
-  { id: nanoid(), task: "test", time: 60 },
-  { id: nanoid(), task: "test0", time: 60 },
-  { id: nanoid(), task: "test2", time: 60 },
-];
+const defaultTempData = [{ id: nanoid(), task: "test1", time: 30 }];
+const defaultTempHistoryData = [{ id: nanoid(), task: "test2", time: 60 }];
 
 //vista contenedora
 export const Tasker = () => {
   const [getTasks, setTasks] = useState<ITask[]>(defaultTempData);
-  const [getHistoryTasks] = useState<ITask[]>(
+  const [getHistoryTasks, setHistoryTasks] = useState<ITask[]>(
     defaultTempHistoryData
   );
   const [onEdit, setEdit] = useState<string>("");
-  const [getClock, setClock] = useState<number>(0);
-
+  const [getClock, setClock] = useState<number>(getTasks[0]?.time ?? 0);
+  const [isPlay, setPlay] = useState<boolean>(false);
   const deleteTask = (id: string) => {
-    const tempTask = getTasks.filter((task: ITask) => task.id !== id);
-    setTasks(tempTask);
+    const tempTasks = getTasks.filter((task: ITask) => task.id !== id);
+    const tempTask = getTasks.find((task: ITask) => task.id === id);
+    setTasks(tempTasks);
+    tempTask && setHistoryTasks([tempTask, ...getHistoryTasks]);
   };
 
   const editTask = (id: string) => {
@@ -57,24 +49,32 @@ export const Tasker = () => {
     }
     setEdit("");
   };
-  // const onComplete = () => { 
-  //   setHistoryTasks([...getHistoryTasks]);
-  // };
   const play = () => {
-    setClock(getTasks[0].time);
+    setPlay(true);
   };
   const pause = () => {
-    setClock(getTasks[0].time);
+    setPlay(false);
   };
   const restore = () => {
-    setClock(getTasks[0].time);
+    setPlay(false);
+    getTasks && setClock(getTasks[0]?.time as number);
+  };
+  const onComplete = () => {
+    let tempTasks = getTasks;
+    let tempTask = getTasks[0];
+    setHistoryTasks([tempTask, ...getHistoryTasks]);
+    tempTasks.shift();
+    setTasks(tempTasks);
   };
 
   useEffect(() => {
-    const timer =
-      getClock > 0 && setInterval(() => setClock(getClock - 1), 1000);
-    return () => clearInterval(timer);
-  }, [getClock]);
+    if (isPlay) {
+      const timer =
+        getClock > 0 && setInterval(() => setClock(getClock - 1), 1000);
+      getClock === 0 && onComplete();
+      if (timer) return () => clearInterval(timer);
+    }
+  }, [getClock, isPlay]);
 
   return (
     <FlexRow>
@@ -84,6 +84,7 @@ export const Tasker = () => {
           <Timer
             time={getClock}
             onPlay={play}
+            isPlay={isPlay}
             onPause={pause}
             onRestore={restore}
           ></Timer>

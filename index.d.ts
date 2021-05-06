@@ -34,23 +34,35 @@ type TAPIAvoResponse = {
 }
 
 type ITasks = {
-  tasks?: ITask[];
+  tasks: ITask[];
   onDelete: (id: any) => void;
   onEdit: (id: any) => void;
   onSave: (task: ITask) => void;
   onCancel: () => void;
-  setTasks:any;
+  setTasks?: any;
   inEdit: any;
 }
 type ITimer = {
   onPlay: () => void;
   onPause: () => void;
   onRestore: () => void;
-  time?: number;
+  isPlay: boolean;
+  time: number;
 
 }
+type IItem = {
+  i: number;
+  task: ITask;
+  updatePosition: (i, pos) => void;
+  updateOrder: (i, y) => void;
+  onDelete: (id) => void;
+  onEdit: (id) => void;
+  inEdit: string;
+  onSave: (task: ITask) => void;
+  onCancel: () => void;
+}
 type IHistory = {
-  tasks?: ITask[];
+  tasks: ITask[];
 }
 enum Status {
   todo,
@@ -58,10 +70,9 @@ enum Status {
   done
 }
 type ITask = {
-  id?: string | number;
-  task?: string;
-  status?: Status;
-  time?: number;
+  id: string | number;
+  task: string;
+  time: number;
   key?: number | string;
 };
 

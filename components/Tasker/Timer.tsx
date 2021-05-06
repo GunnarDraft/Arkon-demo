@@ -11,15 +11,27 @@ const TimerContent = styled.div``;
 export const Timer: FC<ITimer> = ({
   time,
   onPlay,
+  isPlay,
   onPause,
   onRestore,
 }: ITimer) => {
   return (
     <TimerContent>
       {time}
-      <IconButton children={<PlayIcon />} onClick={onPlay} />
-      <IconButton children={<PauseIcon />} onClick={onPause} />
-      <IconButton children={<RestoreIcon />} onClick={onRestore} />
+      {isPlay ? (
+        <IconButton
+          color="primary"
+          children={<PauseIcon />}
+          onClick={onPause}
+        />
+      ) : (
+        <IconButton color="primary" children={<PlayIcon />} onClick={onPlay} />
+      )}
+      <IconButton
+        color="primary"
+        children={<RestoreIcon />}
+        onClick={onRestore}
+      />
     </TimerContent>
   );
 };

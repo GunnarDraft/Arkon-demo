@@ -23,8 +23,8 @@
     "resolveJsonModule": true,
     "isolatedModules": true,
     "useDefineForClassFields": false,
-    "noImplicitAny": false,
-    "strictNullChecks": false
+    "noImplicitAny": true,
+    "strictNullChecks": true
   },
   "exclude": [
     "node_modules"
