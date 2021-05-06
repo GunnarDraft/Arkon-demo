@@ -22,7 +22,7 @@ const defaultTempHistoryData = [
 //vista contenedora
 export const Tasker = () => {
   const [getTasks, setTasks] = useState<ITask[]>(defaultTempData);
-  const [getHistoryTasks, setHistoryTasks] = useState<ITask[]>(
+  const [getHistoryTasks] = useState<ITask[]>(
     defaultTempHistoryData
   );
   const [onEdit, setEdit] = useState<string>("");
@@ -57,7 +57,9 @@ export const Tasker = () => {
     }
     setEdit("");
   };
-
+  // const onComplete = () => { 
+  //   setHistoryTasks([...getHistoryTasks]);
+  // };
   const play = () => {
     setClock(getTasks[0].time);
   };
