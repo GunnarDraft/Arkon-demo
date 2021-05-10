@@ -2,12 +2,13 @@ import {
   TaskerContent,
   TextTitle,
   GridContent,
-  FlexRow,
+  ButtonPrimary,
+  FlexData,
 } from "../../styles/Components";
 import { GridColDef } from "@material-ui/data-grid";
 import React, { FC } from "react";
 import { createMuiTheme, ThemeProvider } from "@material-ui/core/styles";
-import { esES, DataGrid } from "@material-ui/data-grid";
+import { esES } from "@material-ui/data-grid";
 const theme = createMuiTheme(
   {
     palette: {
@@ -17,43 +18,47 @@ const theme = createMuiTheme(
   },
   esES
 );
-export const History: FC<IHistory> = ({ tasks }: IHistory) => {
+export const History: FC<IHistory> = ({ tasks, addData }: IHistory) => {
+
+  //definicion de la columnas del datagrid
   const columns: GridColDef[] = [
     {
       field: "task",
-      headerName: "Tareas",
+      headerName: "Tareas", 
       flex: 1,
     },
     {
       field: "time",
       headerName: "Tiempo",
       flex: 1,
-    }
+      type:'dateTime'
+    },
   ];
+
   tasks && <div>Sin Tareas</div>;
 
-  return (
-    <FlexRow>
+  return ( 
       <TaskerContent>
-        <TextTitle>Historial</TextTitle>
+        <TextTitle>
+          Historial 
+          <ButtonPrimary variant="outlined" color="primary" onClick={addData}>
+            Agregar datos
+          </ButtonPrimary>
+        </TextTitle>
         <GridContent>
           <ThemeProvider theme={theme}>
-            <DataGrid
+            <FlexData
               rows={tasks}
               columns={columns}
-              density="standard"
-              hideFooterPagination
-              hideFooter
+              density="standard"  
               disableColumnSelector
               disableExtendRowFullWidth
               disableSelectionOnClick
-              hideFooterSelectedRowCount
-              hideFooterRowCount
+              hideFooterSelectedRowCount 
               {...tasks}
             />
           </ThemeProvider>
         </GridContent>
-      </TaskerContent>
-    </FlexRow>
+      </TaskerContent> 
   );
 };

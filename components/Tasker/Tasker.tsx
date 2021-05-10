@@ -3,41 +3,44 @@ import { ListofTasks } from "./ListofTasks";
 import { AddTask } from "./AddTask";
 import { TaskerContent, FlexRow, TextTitle } from "../../styles/Components";
 import { History } from "./History";
-import { nanoid } from "nanoid";
 import { Timer } from "./Timer";
-//default data test
-const defaultTempData = [{ id: nanoid(), task: "test1", time: 30 }];
-const defaultTempHistoryData = [{ id: nanoid(), task: "test2", time: 60 }];
-
-//vista contenedora
+import {
+  defaultTempData,
+  defaultTempHistoryData,
+  demoData,
+} from "../../api/demo/exampleData";
+import { Chart } from "../Tasker/Chart";
 export const Tasker = () => {
   const [getTasks, setTasks] = useState<ITask[]>(defaultTempData);
   const [getHistoryTasks, setHistoryTasks] = useState<ITask[]>(
     defaultTempHistoryData
   );
   const [onEdit, setEdit] = useState<string>("");
-  const [getClock, setClock] = useState<number>(getTasks[0]?.time ?? 0);
+  const [getClock, setClock] = useState<Date>(getTasks[0]?.time);
   const [isPlay, setPlay] = useState<boolean>(false);
+
+  //elimina la tarea y la agrega al historial
   const deleteTask = (id: string) => {
     const tempTasks = getTasks.filter((task: ITask) => task.id !== id);
     const tempTask = getTasks.find((task: ITask) => task.id === id);
     setTasks(tempTasks);
     tempTask && setHistoryTasks([tempTask, ...getHistoryTasks]);
   };
-
+  //selecciona la tarea a editar
   const editTask = (id: string) => {
     if (onEdit === id) return setEdit("");
     setEdit(id);
   };
-
+  //cancela la edicion en curso
   const cancel = () => {
     setEdit("");
   };
-
+  //añade la nueva tarea junto con las anteriores
   const addTask = (task: ITask) => {
-    setTasks([task, ...getTasks]);
+    setTasks([...getTasks, task]);
   };
 
+  //guarda la tarea editada
   const save = (tasklocal: ITask) => {
     let tempTask = getTasks.findIndex(
       (task: ITask) => task.id === tasklocal.id
@@ -49,29 +52,54 @@ export const Tasker = () => {
     }
     setEdit("");
   };
+
   const play = () => {
     setPlay(true);
   };
+
   const pause = () => {
     setPlay(false);
   };
+  //reinicia el reloj
   const restore = () => {
     setPlay(false);
-    getTasks && setClock(getTasks[0]?.time as number);
+    getTasks && setClock(getTasks[0]?.time);
   };
+  //añade datos de prueba
+  const addData = () => {
+    setHistoryTasks(demoData);
+  };
+
   const onComplete = () => {
     let tempTasks = getTasks;
     let tempTask = getTasks[0];
+
+    getClock.getMinutes() > 0 &&
+      getClock.getSeconds() > 0 &&
+      tempTask.time.setMinutes(
+        tempTask.time.getMinutes() - getClock.getMinutes()
+      );
+    tempTask.time.setSeconds(
+      tempTask.time.getSeconds() - getClock.getSeconds()
+    );
     setHistoryTasks([tempTask, ...getHistoryTasks]);
     tempTasks.shift();
     setTasks(tempTasks);
   };
-
+  //evento de play validacion de reloj
   useEffect(() => {
     if (isPlay) {
+      let tempDate = new Date();
+      tempDate.setMinutes(getClock.getMinutes());
+      tempDate.setSeconds(getClock.getSeconds() - 1);
       const timer =
-        getClock > 0 && setInterval(() => setClock(getClock - 1), 1000);
-      getClock === 0 && onComplete();
+        getClock.getMinutes() > 0 &&
+        getClock.getSeconds() >= 0 &&
+        setInterval(() => setClock(tempDate), 1000);
+
+      getClock.getMinutes() === 0 &&
+        getClock.getSeconds() === 0 &&
+        onComplete();
       if (timer) return () => clearInterval(timer);
     }
   }, [getClock, isPlay]);
@@ -90,6 +118,7 @@ export const Tasker = () => {
           ></Timer>
         </TextTitle>
         <AddTask onAdd={addTask} />
+
         <ListofTasks
           setTasks={setTasks}
           tasks={getTasks}
@@ -98,9 +127,11 @@ export const Tasker = () => {
           inEdit={onEdit}
           onSave={save}
           onCancel={cancel}
+          onFinish={onComplete}
         />
       </TaskerContent>
-      <History tasks={getHistoryTasks} />
+      <History tasks={getHistoryTasks} addData={addData} />
+      <Chart tasks={getHistoryTasks}/>
     </FlexRow>
   );
 };

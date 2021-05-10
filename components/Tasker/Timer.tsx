@@ -17,7 +17,7 @@ export const Timer: FC<ITimer> = ({
 }: ITimer) => {
   return (
     <TimerContent>
-      {time}
+      Tiempo {time.getMinutes()}:{time.getSeconds()}
       {isPlay ? (
         <IconButton
           color="primary"

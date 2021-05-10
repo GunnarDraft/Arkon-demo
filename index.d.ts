@@ -7,38 +7,13 @@ type Json =
   | { [property: string]: Json }
   | Json[]
 
-type TProductId = string
-
-type TProductAttributes = {
-  description: string
-  shape: string
-  hardiness: string
-  taste: string
-}
-
-type TProduct = {
-  id: TProductId
-  name: string
-  sku: string
-  price: number
-  image: Url
-  attributes: TProductAttributes
-}
-
-type TAPIAVODetailResponse = TProduct
-
-type TAPIAvoResponse = {
-  lenght: number
-  data: TProduct[]
-  error?: string
-}
-
 type ITasks = {
   tasks: ITask[];
   onDelete: (id: any) => void;
   onEdit: (id: any) => void;
   onSave: (task: ITask) => void;
   onCancel: () => void;
+  onFinish: () => void;
   setTasks?: any;
   inEdit: any;
 }
@@ -47,7 +22,7 @@ type ITimer = {
   onPause: () => void;
   onRestore: () => void;
   isPlay: boolean;
-  time: number;
+  time: Date;
 
 }
 type IItem = {
@@ -59,11 +34,17 @@ type IItem = {
   onEdit: (id) => void;
   onSave: (task: ITask) => void;
   onCancel: () => void;
+  onFinish: () => void;
   inEdit: string;
 }
 type IHistory = {
   tasks: ITask[];
+  addData: () => void;
 }
+type IChart = {
+  tasks: ITask[]; 
+}
+
 enum Status {
   todo,
   process,
@@ -72,8 +53,8 @@ enum Status {
 type ITask = {
   id: string | number;
   task: string;
-  time: number;
-  key?: number | string;
+  time: Date; 
+  key?: number | string; 
 };
 
 type ShortOrder = 'asc' | 'desc';
