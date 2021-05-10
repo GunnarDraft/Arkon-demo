@@ -1,4 +1,4 @@
-import { Checkbox,  IconButton } from "@material-ui/core";
+import { Checkbox, IconButton } from "@material-ui/core";
 import {
   Delete as DeleteIcon,
   Edit as EditIcon,
@@ -8,8 +8,7 @@ import {
 } from "@material-ui/icons";
 import React, { ChangeEvent, FC, useEffect, useState } from "react";
 import {
-  TextFlex,
-  GridContent,
+  TextFlex, 
   TaskerItem,
   FlexUl,
   FlexLi,
@@ -19,6 +18,11 @@ import {
 } from "../../styles/Components";
 import { usePositionReorder } from "../../hooks/use-position-reorder";
 import { useMeasurePosition } from "../../hooks/use-measure-position";
+import {
+  KeyboardTimePicker,
+  MuiPickersUtilsProvider,
+} from "@material-ui/pickers";
+import DateFnsUtils from "@date-io/date-fns";
 
 export const ListofTasks: FC<ITasks> = ({
   tasks,
@@ -28,11 +32,13 @@ export const ListofTasks: FC<ITasks> = ({
   inEdit,
   onSave,
   onCancel,
+  onFinish,
 }: ITasks) => {
   const [order, updatePosition, updateOrder, setOrder] = usePositionReorder(
     tasks
   );
-
+  //fix bind data
+  //como los datos puedes mutar de 2 origenes igualo los datos si alguno cambia
   useEffect(() => {
     tasks !== order && setTasks(order);
   }, [order]);
@@ -41,33 +47,34 @@ export const ListofTasks: FC<ITasks> = ({
     tasks !== order && setOrder(tasks);
   }, [tasks]);
 
+  //validamos que exista el orden
+
   order && <div>Sin Tareas</div>;
 
   return (
     <TaskerItem>
-      <GridContent>
-        <FlexUl>
-          {order.map((task: ITask, i: number) => (
-            <Item
-              key={task.id}
-              task={task}
-              i={i}
-              updatePosition={updatePosition}
-              updateOrder={updateOrder}
-              onDelete={onDelete}
-              onEdit={onEdit}
-              inEdit={inEdit}
-              onSave={onSave}
-              onCancel={onCancel}
-            />
-          ))}
-        </FlexUl>
-      </GridContent>
+      <FlexUl>
+        {order.map((task: ITask, i: number) => (
+          <Item
+            key={task.id}
+            task={task}
+            i={i}
+            updatePosition={updatePosition}
+            updateOrder={updateOrder}
+            onDelete={onDelete}
+            onEdit={onEdit}
+            inEdit={inEdit}
+            onSave={onSave}
+            onCancel={onCancel}
+            onFinish={onFinish}
+          />
+        ))}
+      </FlexUl>
     </TaskerItem>
   );
 };
 
-const Item = (props:IItem) => {
+const Item = (props: IItem) => {
   const {
     i,
     task,
@@ -78,24 +85,39 @@ const Item = (props:IItem) => {
     inEdit,
     onSave,
     onCancel,
+    onFinish,
   } = props;
 
   //estado de drag and drop del item
   const [getEditTask, setEditTask] = useState<string>(task.task);
-  const [getEditTime, setEditTime] = useState<number | string>(task.time);
+  let tempDate = new Date();
+  tempDate.setMinutes(task.time.getMinutes());
+  tempDate.setSeconds(task.time.getSeconds());
+  const [selectedDate, handleDateChange] = useState(tempDate);
+
   const [isDragging, setDragging] = useState(false);
-  const ref = useMeasurePosition((pos:any) => updatePosition(i, pos));
+  const ref = useMeasurePosition((pos: any) => updatePosition(i, pos));
 
   return (
-    <FlexLi style={{ padding: 0, zIndex: isDragging ? 3 : 1 }}>
+    <FlexLi style={{ padding: 0, zIndex: isDragging ? 3 : 2 }}>
       <FlexDiv
         ref={ref}
         layout
         initial={false}
-        style={{ background: "white", height: "48px", borderRadius: 5 }}
+        style={{
+          background: "white",
+          height: "50px",
+          borderRadius: 5,
+          flex: 1,
+          overflow: "hidden",
+        }}
         whileDrag={{
           scale: 1.02,
           boxShadow: "0px 3px 3px rgba(0,0,0,0.15)",
+        }}
+        dragConstraints={{
+          top: -60,
+          bottom: 60,
         }}
         drag="y"
         onDragStart={() => setDragging(true)}
@@ -104,9 +126,7 @@ const Item = (props:IItem) => {
           isDragging && updateOrder(i, delta.y.translate);
         }}
       >
-        <Checkbox color="primary"
-          onChange={(e: ChangeEvent<HTMLInputElement>) => e.target.checked}
-        />
+        <Checkbox color="primary" disabled={i !== 0} onChange={onFinish} />
         {inEdit === task.id ? (
           <Form>
             <TextInput
@@ -118,22 +138,29 @@ const Item = (props:IItem) => {
               onChange={(e: ChangeEvent<HTMLInputElement>) =>
                 setEditTask(e.target.value)
               }
+              fullWidth
             />
-            <TextInput
-              label="Tiempo"
-              variant="outlined"
-              margin="dense"
-              type="number"
-              value={getEditTime}
-              onChange={(e: ChangeEvent<HTMLInputElement>) =>
-                setEditTime(e.target.value)
-              }
-            />
+            <MuiPickersUtilsProvider utils={DateFnsUtils}>
+              <KeyboardTimePicker
+                ampm={false}
+                openTo="minutes"
+                views={["minutes", "seconds"]}
+                format="mm:ss"
+                label="Tiempo"
+                inputVariant="outlined"
+                margin="dense"
+                value={selectedDate}
+                onChange={handleDateChange}
+                fullWidth
+              />
+            </MuiPickersUtilsProvider>
           </Form>
         ) : (
           <TextFlex>
             <TextFlex>{task.task}</TextFlex>
-            <TextFlex>{task.time}</TextFlex>
+            <TextFlex>
+              {task.time.getMinutes()}:{task.time.getSeconds()}
+            </TextFlex>
           </TextFlex>
         )}
         {inEdit === task.id ? (
@@ -145,7 +172,7 @@ const Item = (props:IItem) => {
                 onSave({
                   id: task.id,
                   task: getEditTask,
-                  time: getEditTime as number
+                  time: selectedDate
                 })
               }
             />

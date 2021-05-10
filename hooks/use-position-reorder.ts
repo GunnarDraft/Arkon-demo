@@ -5,15 +5,15 @@ import move from "array-move";
 export function usePositionReorder(initialState:any) {
   const [order, setOrder] = useState(initialState);
 
-  // We need to collect an array of height and position data for all of this component's
-  // `Item` children, so we can later us that in calculations to decide when a dragging
-  // `Item` should swap places with its siblings.
+  // Necesitamos recoger un array de datos de altura y posición para todos los hijos de este componente
+  // hijos de este componente, para que luego podamos usarlos en los cálculos para decidir cuándo un
+  // de un `Item` debe cambiar de lugar con sus hermanos.
   const positions = useRef([null]).current;
   const updatePosition = (i:any, offset:any) => (positions[i] = offset);
 
-  // Find the ideal index for a dragging item based on its position in the array, and its
-  // current drag offset. If it's different to its current index, we swap this item with that
-  // sibling.
+    // Encuentra el índice ideal para un elemento de arrastre basado en su posición en el array, y su
+  // desplazamiento de arrastre actual. Si es diferente a su índice actual, intercambiamos este elemento con ese
+  // hermano. 
   const updateOrder = (i:any, dragOffset:any) => {
     const targetIndex = findIndex(i, dragOffset, positions);
     if (targetIndex !== i) setOrder(move(order, i, targetIndex));
@@ -28,8 +28,7 @@ export const findIndex = (i:any, yOffset:any, positions:any) => {
   let target = i;
   const { top, height } = positions[i];
   const bottom = top + height;
-  // Si se mueve hacia abajo
-  // If moving down
+  // Si se mueve hacia abajo 
   if (yOffset > 0) {
     const nextItem = positions[i + 1];
     if (nextItem === undefined) return i;
@@ -37,8 +36,7 @@ export const findIndex = (i:any, yOffset:any, positions:any) => {
     const swapOffset =
       distance(bottom, nextItem.top + nextItem.height / 2) + buffer;
     if (yOffset > swapOffset) target = i + 1;
-    // Si se mueve hacia arriba
-    // If moving up
+    // Si se mueve hacia arriba 
   } else if (yOffset < 0) {
     const prevItem = positions[i - 1];
     if (prevItem === undefined) return i;
